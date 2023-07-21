@@ -35,7 +35,11 @@ func ScheduleCourses(matakuliah []models.MataKuliah, creditLimit int) (float64, 
 	maxScore := dp[len(matakuliah)][creditLimit]
 	selected := selectedCourses[len(matakuliah)][creditLimit]
 
-	return maxScore, selected
+	// Calculating total sks
+	totalSKS := CalculateTotalSKS(selected)
+	ip := maxScore / float64(totalSKS)
+
+	return ip, selected
 }
 
 func getScore(prediction string, SKS int) float64 {
@@ -50,4 +54,13 @@ func getScore(prediction string, SKS int) float64 {
 	}
 
 	return scores[prediction] * float64(SKS)
+}
+
+// CalculateTotalSKS calculates the total SKS value from a list of selected MataKuliah
+func CalculateTotalSKS(selectedMataKuliah []models.MataKuliah) int {
+	totalSKS := 0
+	for _, matkul := range selectedMataKuliah {
+		totalSKS += matkul.SKS
+	}
+	return totalSKS
 }

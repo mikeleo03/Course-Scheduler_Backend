@@ -22,6 +22,7 @@ type ScheduleResponse struct {
 	Message    string 				`json:"message,omitempty"`
 	Value      []models.MataKuliah  `json:"value,omitempty"`
 	Total      float64              `json:"total,omitempty"`
+	SKS        int              	`json:"sks,omitempty"`
 }
 
 // Create a global instance of Repo
@@ -205,7 +206,8 @@ func GenerateSchedule(w http.ResponseWriter, r *http.Request) {
 		// Parse the URL parameters
 		jurusan := r.URL.Query().Get("jurusan")
 		semester := r.URL.Query().Get("semester")
-		sks := r.URL.Query().Get("sks")
+		sksmin := r.URL.Query().Get("sksmin")
+		sksmax := r.URL.Query().Get("sksmax")
 
 		// get all the matkul data based on spesification
 		sem, err := strconv.Atoi(semester)
@@ -231,29 +233,44 @@ func GenerateSchedule(w http.ResponseWriter, r *http.Request) {
 		}
 
 		// Apply the algorithm to the filtered mata kuliah data
-		sksval, err := strconv.Atoi(sks)
+		sksminval, err := strconv.Atoi(sksmin)
 		if err != nil {
 			// Handle error if the string cannot be converted to int
 			log.Fatalf("Error converting. %v", err)
 			return
 		}
-		total, scheduledMataKuliah := algorithm.ScheduleCourses(mataKuliahList, sksval)
 
-		// Check if there is no mata kuliah after applying the algorithm
-		if len(scheduledMataKuliah) == 0 {
-			res := ScheduleResponse {
-				Status:  false,
-				Message: "Tidak terdapat mata kuliah yang memenuhi kondisi. Silahkan ubah data.",
-			}
-			// send the response
-			json.NewEncoder(w).Encode(res)
+		sksmaxval, err := strconv.Atoi(sksmax)
+		if err != nil {
+			// Handle error if the string cannot be converted to int
+			log.Fatalf("Error converting. %v", err)
 			return
 		}
+
+		// Initialize variables to keep track of the maximum scheduledMataKuliah and its total
+		var maxScheduledMataKuliah []models.MataKuliah
+		var maxTotal float64
+		var maxSKS int
+
+		// Iterate from sksmin to sksmax (inclusive)
+		for sks := sksminval; sks <= sksmaxval; sks++ {
+			// Apply the algorithm to the mataKuliahList with current sks value
+			total, scheduledMataKuliah := algorithm.ScheduleCourses(mataKuliahList, sks)
+
+			// Check if the current scheduledMataKuliah has a higher total than the previous maximum
+			if total > maxTotal {
+				maxTotal = total
+				maxScheduledMataKuliah = scheduledMataKuliah
+				maxSKS = sks
+			}
+		}
+		
 		// Return the result to the frontend
 		res := ScheduleResponse{
 			Status:  true,
-			Value:   scheduledMataKuliah,
-			Total:   total,
+			Value:   maxScheduledMataKuliah,
+			Total:   maxTotal,
+			SKS: 	 maxSKS,
 			Message: "",
 		}
 		// send the response
