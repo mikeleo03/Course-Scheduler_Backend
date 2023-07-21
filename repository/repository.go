@@ -7,8 +7,7 @@ import (
 	"os"
 
 	"github.com/mikeleo03/Course-Scheduler_Backend/models"
-	// Uncomment this when running in local
-	// "github.com/joho/godotenv"
+	"github.com/joho/godotenv"
 	_ "github.com/lib/pq"
 )
 
@@ -19,11 +18,10 @@ type Repo struct {
 // CreateConnection creates a connection with the PostgreSQL database
 func CreateConnection() (*Repo, error) {
 	// Load .env file
-	// Uncomment this when running in local
-	// err := godotenv.Load(".env")
-	// if err != nil {
-	// 	log.Fatalf("Error loading .env file: %v", err)
-	// }
+	err := godotenv.Load(".env")
+	if err != nil {
+		log.Fatalf("Error loading .env file: %v", err)
+	}
 
 	// Open the connection
 	db, err := sql.Open("postgres", os.Getenv("POSTGRES_URL"))

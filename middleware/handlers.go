@@ -262,6 +262,12 @@ func GenerateSchedule(w http.ResponseWriter, r *http.Request) {
 				maxTotal = total
 				maxScheduledMataKuliah = scheduledMataKuliah
 				maxSKS = sks
+			} else if total == maxTotal {
+				if len(maxScheduledMataKuliah) <= len(scheduledMataKuliah) {
+					maxTotal = total
+					maxScheduledMataKuliah = scheduledMataKuliah
+					maxSKS = sks
+				}
 			}
 		}
 		

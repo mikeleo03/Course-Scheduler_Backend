@@ -12,5 +12,4 @@ services:
     image: postgres
     ports:
       - '5432:5432'
-    environment:
-      - POSTGRES_URL=${POSTGRES_URL}
+    env_file: .env
