@@ -88,6 +88,7 @@ Consider having a list of course (Mata Kuliah) like this.
 | Strategi Algoritma            | A             | 3           |
 | Aljabar Linear dan Geomteri   | AB            | 3           |
 | Algoritma dan Struktur Data   | B             | 4           |
+
 Then the total value is 
 $$\frac{(4.0 \times 3) + (3.5 \times 3) + (3.0 \times 4)}{3 + 3 + 4} = 3.45$$
 
@@ -95,11 +96,11 @@ $$\frac{(4.0 \times 3) + (3.5 \times 3) + (3.0 \times 4)}{3 + 3 + 4} = 3.45$$
 - The algorithm uses a two-dimensional array dp of size $(n + 1) \times (C + 1)$ to store the maximum achievable score for each subproblem. The initialization of this array takes $O(n \times C)$ time.
 - It uses a nested loop to iterate over each course $(i)$ and each credit limit $(j)$ from $1$ to $C$. For each subproblem, it calculates the maximum achievable score based on the previous subproblems. The calculation for each subproblem takes constant time $(O(1))$.
 Therefore, the total time taken to fill the entire dp array is $O(n \times C)$.
-The space complexity of the algorithm is also $O(n \times C)$ since it uses the dp array of size $(n + 1) x (C + 1)$ and the selectedCourses array of the same size.
+The space complexity of the algorithm is also $O(n \times C)$ since it uses the dp array of size $(n + 1) \times (C + 1)$ and the selectedCourses array of the same size.
 
 ### Fakultas and Jurusan implementation
 Due to the bonus task, Fakultas have one-to-many relation with Jurusan. This make Jurusan needs to save Fakultas ID to make a better data binding based on foreign key references. The implementation is used as follows :
-1. User with Jurusan X could take all course from Fakultas Y, where Y is the Fakultas which holds Jurusan X.
+1. User with Jurusan $X$ could take all course from Fakultas $Y$, where $Y$ is the Fakultas which holds Jurusan $X$.
 2. User don't need to input Fakultas when adding new Mata Kuliah because the Jurusan save the Fakultas ID and make the data binding so easy to do.
 
 ## How to Compile and Run the Program
