@@ -130,7 +130,8 @@ In the project directory, you can run:
 Ths runs the app in the development mode.
 
 The page will reload if you make edits.<br />
-You will also see any lint errors in the console. You can also use the environment by appyling the basic .env configuration on .env.example file.
+You will also see any lint errors in the console. You can also use the environment by appyling the basic .env configuration on .env.example file.<br />
+Also don't forget to uncomment the section in repository go that have comment "Uncomment for local development"
 
 ## References
 - https://go.dev/doc/
