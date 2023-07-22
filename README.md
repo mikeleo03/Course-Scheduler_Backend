@@ -136,7 +136,7 @@ Also don't forget to uncomment the section in repository go that have comment "U
 ## References
 - https://go.dev/doc/
 - https://www.postgresql.org/docs/
-- https://www.yugabyte.com/
+- https://neon.tech/docs/
 - https://www.docker.com/
 
 ## Contributors
